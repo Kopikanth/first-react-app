@@ -1,0 +1,28 @@
+.todo-list{
+    margin-top: 40px;
+}
+
+.todo-item{
+    position: relative;
+    margin-top: 20px;
+    margin-left: 80px;
+    font-size: 30px;
+    cursor: pointer;
+    width: fit-content;
+    user-select: none;
+}
+
+.todo-item::before{
+    content: "";
+    position: absolute;
+    left: -60px;
+    top: -5px;
+}
+
+.todo-item.checked::before{
+    content: "☑️";
+}
+
+.todo-item.unchecked::before{
+    content: "⬜";
+}
