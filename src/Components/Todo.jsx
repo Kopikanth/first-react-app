@@ -1,18 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./CSS/Todo.css";
 import { TodoItems } from "./TodoItems";
 
 export const Todo = () => {
 
     const [todos, setTodos] = useState([]);
-    const [input, setInput] = useState("");
     const inputRef = useRef(null);
+    const hasMounted = useRef(false);
 
-    const addTodo = () =>{
-        if (input.trim() === ""){return}
-        const newtodo = {text: input, completed: false};
+    const addTodo = () => {
+        if (inputRef.current.value.trim() === "") { return }
+        const newtodo = { text: inputRef.current.value, completed: false };
         setTodos([...todos, newtodo]);
-        setInput("");
+        inputRef.current.value = "";
     }
 
     const toggleList = (index) => {
@@ -20,15 +20,28 @@ export const Todo = () => {
         newtodos[index].completed = !(todos[index].completed);
         setTodos(newtodos);
     }
+    useEffect(() => {
+        const savedTodoList = JSON.parse(localStorage.getItem("todoitems")) || [];
+        setTodos(savedTodoList);
+    }, []);
+
+    useEffect(() => {
+        if (hasMounted.current) { 
+            localStorage.setItem("todoitems", JSON.stringify(todos));
+        }else{
+            hasMounted.current = true;
+        }
+    }, [todos]);
+
 
     return (
         <div className="todo">
             <div className="todo-header">To-Do List</div>
             <div className="todo-add">
-                <input type="text" placeholder="Add your task" value={input} className="todo-input" ref={inputRef} onChange={(e)=>{setInput(e.target.value)}}/>
+                <input type="text" placeholder="Add your task" className="todo-input" ref={inputRef}/>
                 <div className="todo-input-btn" onClick={addTodo}>ADD</div>
             </div>
-            <TodoItems todosData={todos} toggleListFunction={toggleList}/>
+            <TodoItems todosData={todos} toggleListFunction={toggleList} setTodosFunction={setTodos} />
         </div>
     );
 };

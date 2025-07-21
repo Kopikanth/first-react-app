@@ -2,8 +2,6 @@ import { Todo } from "./Components/Todo"
 
 export const App = () => {
 
-
-
   return (
     <div>
       <Todo/>  

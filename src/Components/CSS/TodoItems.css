@@ -1,5 +1,6 @@
 .todo-list{
     margin-top: 40px;
+    padding-right: 10px;
 }
 
 .todo-item{
@@ -8,21 +9,39 @@
     margin-left: 80px;
     font-size: 30px;
     cursor: pointer;
-    width: fit-content;
+    width: 470px;
     user-select: none;
+    word-wrap: break-word;
 }
 
 .todo-item::before{
     content: "";
     position: absolute;
     left: -60px;
-    top: -5px;
+    top: auto;
+    bottom: auto;
+}
+
+.todo-item.checked{
+    text-decoration: line-through solid black 3px;
 }
 
 .todo-item.checked::before{
-    content: "☑️";
+    content: url("../Assets/tick.png");
 }
 
 .todo-item.unchecked::before{
-    content: "⬜";
+    content: url("../Assets/not_tick.png");
+}
+
+.todo-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-container img{
+    height: 30px;
+    margin-top: -5px;
+    cursor: pointer;
 }
